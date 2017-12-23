@@ -1,6 +1,6 @@
 [package]
 name = "lti"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Nick Benoit <nick.benoit14@gmail.com>"]
 description = "Rust library to support the development of LTI tools and applications."
 license = "MIT/Apache-2.0"

@@ -29,11 +29,7 @@ let valid_launch: bool = lti::verify_lti_launch(
   my_www_form_urlencoded_params,
 
   // Consumer secret shared between Tool Consumer and Tool Provider
-  my_consumer_secret,
-
-  // Signature provided by Tool Consumer. This should be
-  // provided in the post parameters as 'oauth_signature'
-  provided_signature,
+  my_consumer_secret
 )
 ```
 
