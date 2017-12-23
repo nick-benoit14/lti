@@ -64,6 +64,37 @@ pub fn signature(method: &str,
     base64::encode(signature.as_ref())
 }
 
+/// Verify a given lti launch
+///
+/// Lti Launch verification essentially entails duplicating the
+/// process that the Tool Consumer used to produce the oauth_signature,
+/// then verifying the signatures match. This ensures that no data has
+/// been altered since the Tool Consumer signed the request.
+///
+/// # Example
+///
+///```rust
+///  extern crate lti;
+///
+///  let valid_launch: bool = lti::verify_lti_launch(
+///    // HTTP Method (for lti launches this should be a post)
+///    "POST",
+///
+///    // Full Uri for the lti launch
+///    "https://my_domain/lti_launch",
+///
+///    // Url encoded request parameters
+///    my_www_form_urlencoded_params,
+///
+///    // Consumer secret shared between Tool Consumer and Tool Provider
+///    my_consumer_secret,
+///
+///    // Signature provided by Tool Consumer. This should be
+///    // provided in the post parameters as 'oauth_signature'
+///    provided_signature,
+///  )
+///
+/// ```
 pub fn verify_lti_launch(method: &str, uri: &str, query: &str,
                         consumer_secret: &str,request_signature: &str) -> bool{
     let sig = signature(method, uri, query, consumer_secret, None);
