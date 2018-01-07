@@ -15,21 +15,22 @@
 //! Example of verifying an lti launch:
 //!
 //! ```rust
-//! extern crate lti;
+//!  extern crate lti;
+//!  let my_www_form_urlencoded_params = "oauth_consumer_key=asdf...";
+//!  let my_consumer_secret = "asdf";
+//!  let valid_launch: bool = lti::verify_lti_launch(
+//!    // HTTP Method (for lti launches this should be a post)
+//!    "POST",
 //!
-//! let valid_launch: bool = lti::verify_lti_launch(
-//!   // HTTP Method (for lti launches this should be a post)
-//!   "POST",
+//!    // Full Uri for the lti launch
+//!    "https://my_domain/lti_launch",
 //!
-//!   // Full Uri for the lti launch
-//!   "https://my_domain/lti_launch",
+//!    // Url encoded request parameters
+//!    my_www_form_urlencoded_params,
 //!
-//!   // Url encoded request parameters
-//!   my_www_form_urlencoded_params,
-//!
-//!   // Consumer secret shared between Tool Consumer and Tool Provider
-//!   my_consumer_secret
-//! )
+//!    // Consumer secret shared between Tool Consumer and Tool Provider
+//!    my_consumer_secret
+//!  );
 //! ```
 
 
