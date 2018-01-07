@@ -12,9 +12,16 @@ LTI standard can be found
 
 ## Installation
 
+Add `lti = "0.2.0"` to your Cargo.toml file
+
 ## Usage
 
-LTI currently supports verifying lti launches by
+The primary use case of LTI is to verify an lti launch. This ensures
+that the request to your application has not been tampered with and
+allows you to trust the given POST parameters.
+
+Example of verifying an lti launch:
+
 ```rust
 extern crate lti;
 

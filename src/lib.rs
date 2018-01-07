@@ -1,3 +1,38 @@
+//! This is a rust library designed to facilitate building LTI applications. LTI
+//! prescribes a way to integrate rich learning applications (often remotely hosted
+//! and provided through third-party services) with platforms like learning
+//! management systems (LMS), portals, learning object repositories or other
+//! educational environments managed locally or in the cloud. More info about the
+//! LTI standard can be found
+//! [here](https://www.imsglobal.org/activity/learning-tools-interoperability)
+//!
+//! ## Usage
+//!
+//! The primary use case of LTI is to verify an lti launch. This ensures
+//! that the request to your application has not been tampered with and
+//! allows you to trust the given POST parameters.
+//!
+//! Example of verifying an lti launch:
+//!
+//! ```rust
+//! extern crate lti;
+//!
+//! let valid_launch: bool = lti::verify_lti_launch(
+//!   // HTTP Method (for lti launches this should be a post)
+//!   "POST",
+//!
+//!   // Full Uri for the lti launch
+//!   "https://my_domain/lti_launch",
+//!
+//!   // Url encoded request parameters
+//!   my_www_form_urlencoded_params,
+//!
+//!   // Consumer secret shared between Tool Consumer and Tool Provider
+//!   my_consumer_secret
+//! )
+//! ```
+
+
 extern crate url;
 extern crate base64;
 extern crate ring;
@@ -67,8 +102,26 @@ fn request_signature(parsed_launch_params: &Vec<(String, String)>) -> Option<Str
     }
 }
 
-pub fn signature(method: &str,
-              uri: &str,
+/// Generates the signature for a given LTI launch.
+///
+/// Standard details can be found [here](http://www.imsglobal.org/specs/ltiv1p0/implementation-guide#toc-4)
+///
+/// method - The HTTP method of the request, generally either GET or POST
+///
+/// uri - The destination uri of the lti launch request. This will generally
+/// be the uri of the tool provider lti launch route.
+///
+/// params - The stringified lti_launch parameters. This includes query paramters
+/// for a GET request, and form encoded parameters for a POST request. Details
+/// can be found [here](https://oauth1.wp-api.org/docs/basics/Signing.html)
+///
+/// consumer_secret - The shared secret for the given Tool Consumer
+///
+/// token_secret - Generally not used for lti launch requests. Details can
+/// be found [here](https://oauth1.wp-api.org/docs/basics/Signing.html)
+pub fn signature(
+             method: &str,
+             uri: &str,
              params: &str,
              consumer_secret: &str,
              token_secret: Option<&str>)
@@ -110,6 +163,17 @@ pub fn signature(method: &str,
 ///  );
 
 /// ```
+///
+/// method - The HTTP method of the request, generally either GET or POST
+///
+/// uri - The destination uri of the lti launch request. This will generally
+/// be the uri of the tool provider lti launch route.
+///
+/// params - The stringified lti_launch parameters. This includes query paramters
+/// for a GET request, and form encoded parameters for a POST request. Details
+/// can be found [here](https://oauth1.wp-api.org/docs/basics/Signing.html)
+///
+/// consumer_secret - The shared secret for the given Tool Consumer
 pub fn verify_lti_launch(method: &str, uri: &str, params: &str,
                         consumer_secret: &str) -> bool{
     let parsed_params = parse_launch_params(params);
