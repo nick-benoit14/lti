@@ -8,6 +8,6 @@ edition = "2018"
 
 [dependencies]
 ring = "0.17.0-alpha.8"
-url = "1.2.0"
+url = "1.7.2"
 base64 = "0.13.0"
 serde_urlencoded = "0.7.0"
