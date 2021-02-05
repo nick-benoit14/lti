@@ -1,12 +1,12 @@
 [package]
 name = "lti"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Nick Benoit <nick.benoit14@gmail.com>"]
 description = "Rust library to support the development of LTI tools and applications."
 license = "MIT/Apache-2.0"
 
 [dependencies]
-ring = "0.11"
+ring = "0.17.0-alpha.8"
 url = "1.2.0"
 base64 = "0.5"
 serde_urlencoded = "0.5.1"

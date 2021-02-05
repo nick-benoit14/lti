@@ -38,7 +38,6 @@ extern crate url;
 extern crate base64;
 extern crate ring;
 extern crate serde_urlencoded;
-use ring::digest;
 use ring::hmac;
 use url::percent_encoding;
 
@@ -131,7 +130,7 @@ pub fn signature(
     let key = format!("{}&{}",
                       encode(consumer_secret),
                       encode(token_secret.unwrap_or("")));
-    let signing_key = hmac::SigningKey::new(&digest::SHA1, key.as_bytes());
+    let signing_key = hmac::Key::new(hmac::HMAC_SHA1_FOR_LEGACY_USE_ONLY, key.as_bytes());
     let signature = hmac::sign(&signing_key, base.as_bytes());
     base64::encode(signature.as_ref())
 }
