@@ -33,41 +33,36 @@
 //!  );
 //! ```
 
-
-extern crate url;
-extern crate base64;
-extern crate ring;
-extern crate serde_urlencoded;
 use ring::hmac;
 use url::percent_encoding;
 
 // Percent encode string
 fn encode(s: &str) -> String {
      percent_encoding::percent_encode(s.as_bytes(), StrictEncodeSet).collect()
- }
+}
 
 #[derive(Copy, Clone)]
- struct StrictEncodeSet;
+struct StrictEncodeSet;
 
- // Encode all but the unreserved characters defined in
- // RFC 3986, section 2.3. "Unreserved Characters"
- // https://tools.ietf.org/html/rfc3986#page-12
- //
- // This is required by
- // OAuth Core 1.0, section 5.1. "Parameter Encoding"
- // https://oauth.net/core/1.0/#encoding_parameters
- impl percent_encoding::EncodeSet for StrictEncodeSet {
-     #[inline]
-     fn contains(&self, byte: u8) -> bool {
-         !((byte >= 0x61 && byte <= 0x7a) || // A-Z
-           (byte >= 0x41 && byte <= 0x5a) || // a-z
-           (byte >= 0x30 && byte <= 0x39) || // 0-9
-           (byte == 0x2d) || // -
-           (byte == 0x2e) || // .
-           (byte == 0x5f) || // _
-           (byte == 0x7e)) // ~
-     }
- }
+// Encode all but the unreserved characters defined in
+// RFC 3986, section 2.3. "Unreserved Characters"
+// https://tools.ietf.org/html/rfc3986#page-12
+//
+// This is required by
+// OAuth Core 1.0, section 5.1. "Parameter Encoding"
+// https://oauth.net/core/1.0/#encoding_parameters
+impl percent_encoding::EncodeSet for StrictEncodeSet {
+    #[inline]
+    fn contains(&self, byte: u8) -> bool {
+        !((byte >= 0x61 && byte <= 0x7a) || // A-Z
+          (byte >= 0x41 && byte <= 0x5a) || // a-z
+          (byte >= 0x30 && byte <= 0x39) || // 0-9
+          (byte == 0x2d) || // -
+          (byte == 0x2e) || // .
+          (byte == 0x5f) || // _
+          (byte == 0x7e)) // ~
+    }
+}
 
 
 fn parse_launch_params(params: &str) -> Vec<(String, String)>{
