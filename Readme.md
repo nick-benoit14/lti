@@ -12,7 +12,7 @@ LTI standard can be found
 
 ## Installation
 
-Add `lti = "0.2.0"` to your Cargo.toml file
+Add `lti = "0.3.0"` to your Cargo.toml file
 
 ## Usage
 
